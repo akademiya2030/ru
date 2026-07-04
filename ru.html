@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Николай Хромов | Архитектор Духа</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Подключаем новые шрифты Cinzel и Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 2. ЦВЕТОВАЯ ПАЛИТРА (Design Tokens) --- */
+        :root {
+            --bg-black: #0B0B0E;
+            --bg-graphite: #111111;
+            --bg-gray: #1B1B1D;
+            
+            --accent-purple: #5E3BAF;
+            --accent-lavender: #8A6FD8;
+            --accent-gold: #D4AF37;
+            --accent-gold-warm: #E6C259;
+            
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A5;
+            
+            --border-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* --- 3. ТИПОГРАФИКА И БАЗОВЫЙ ФОН --- */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at center, var(--bg-gray) 0%, var(--bg-black) 100%);
+            background-color: var(--bg-black);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            letter-spacing: 0.03em;
+            font-weight: 300;
+        }
+
+        h1, h2, h3, h4, .hero-name, .funnel-number, .dm-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-main);
+        }
+
+        .text-gold {
+            color: var(--accent-gold) !important;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            animation: premiumGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes premiumGlow {
+            0% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+            100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 35px rgba(138, 111, 216, 0.3); }
+        }
+
+        .golden-glow-text {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-align: center;
+            animation: premiumGlow 2.5s ease-in-out infinite alternate;
+        }
+
+        /* --- 5. ЗАДНИЙ ФОН И АНИМАЦИИ (Ambient) --- */
+        #particles-js {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .ambient-fog {
+            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(94, 59, 175, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(138, 111, 216, 0.05) 0%, transparent 40%);
+            z-index: -2;
+            pointer-events: none;
+            animation: fogDrift 30s infinite alternate linear;
+        }
+
+        @keyframes fogDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(5%, 5%) scale(1.1); }
+        }
+
+        .hypnotic-rings {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 150vw; height: 150vw;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent,
+                transparent 40px,
+                rgba(212, 175, 55, 0.02) 41px,
+                rgba(212, 175, 55, 0.02) 42px
+            );
+            z-index: -3;
+            animation: rotateRings 60s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateRings {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* --- 4. ЭФФЕКТЫ И МАТЕРИАЛЫ (Dark Glassmorphism) --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        .dark-glass {
+            background: rgba(27, 27, 29, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(255, 255, 255, 0.02);
+            border-radius: var(--border-radius);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-glass::after {
+            content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transform: skewX(-25deg); transition: 0.5s; pointer-events: none;
+        }
+
+        .dark-glass:hover {
+            border-color: rgba(230, 194, 89, 0.4);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(212, 175, 55, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .dark-glass:hover::after { animation: glass-shine 1.5s ease-out; }
+
+        @keyframes glass-shine { 0% { left: -150%; } 100% { left: 150%; } }
+
+        /* --- 7. ЛОГИКА ПОЯВЛЕНИЯ КОНТЕНТА (Reveal) --- */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            filter: blur(5px);
+            transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        filter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal-element.visible {
+            opacity: 1; transform: translateY(0) scale(1); filter: blur(0);
+        }
+
+        /* --- 6. UI КОМПОНЕНТЫ --- */
+        .btn-main {
+            display: inline-flex; justify-content: center; align-items: center;
+            padding: 14px 30px;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            border: 1px solid var(--accent-gold);
+            cursor: pointer;
+            background: rgba(11, 11, 14, 0.8);
+            box-shadow: 0 0 15px rgba(94, 59, 175, 0.3), 0 0 10px rgba(212, 175, 55, 0.2);
+            letter-spacing: 0.1em;
+            position: relative; z-index: 2; overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: all 0.4s ease;
+        }
+
+        .btn-main:hover {
+            transform: scale(1.03) translateY(-2px);
+            color: var(--accent-gold-warm);
+            border-color: var(--accent-gold-warm);
+            box-shadow: 0 0 25px rgba(94, 59, 175, 0.5), 0 0 20px rgba(230, 194, 89, 0.4);
+        }
+        .btn-main:hover::before { left: 100%; transition: 0.6s ease; }
+
+        .btn-whatsapp {
+            background: rgba(37, 211, 102, 0.1); border-color: #25D366; color: #25D366;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+        .btn-whatsapp:hover {
+            background: rgba(37, 211, 102, 0.2); color: #fff; border-color: #20BA56;
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* --- HEADER --- */
+        header { position: fixed; top: 20px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 100; pointer-events: none; }
+        
+        .nav-capsule {
+            pointer-events: auto; display: flex; gap: 20px; padding: 12px 30px;
+            border-radius: 50px; background: rgba(27, 27, 29, 0.6); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border: 1px solid rgba(212, 175, 55, 0.2);
+            align-items: center;
+        }
+
+        .nav-capsule a {
+            text-decoration: none; color: var(--text-muted); font-size: 0.85rem; font-family: 'Montserrat', sans-serif;
+            font-weight: 400; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.05em;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .nav-capsule a:hover { color: var(--accent-gold); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+
+        .header-btn {
+            background: var(--accent-gold) !important; color: var(--bg-black) !important;
+            padding: 8px 20px !important; border-radius: 50px; font-weight: 600 !important; font-family: 'Cinzel', serif !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); border: none !important;
+        }
+        .header-btn:hover { background: var(--accent-gold-warm) !important; color: var(--bg-black) !important; transform: scale(1.05); }
+
+        /* --- HERO & MISSION --- */
+        .hero { padding-top: 100px; margin-bottom: 60px; display: flex; align-items: center; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+        .image-wrapper { position: relative; width: 100%; padding-bottom: 100%; height: 0; }
+        .liquid-img {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+            border-radius: 50%; animation: morph 12s ease-in-out infinite;
+            box-shadow: 0 0 50px rgba(94, 59, 175, 0.4); border: 2px solid rgba(212, 175, 55, 0.3);
+            filter: grayscale(20%) contrast(1.1);
+        }
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        .hero-content h1 { font-size: 2rem; margin-bottom: 5px; line-height: 1.1; color: var(--text-muted); }
+        .hero-name-container { margin-bottom: 20px; display: flex; flex-direction: column; justify-content: center; }
+        .hero-name {
+            font-size: 4.5rem; font-weight: 600; line-height: 1.1; 
+            color: var(--text-main); text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            position: relative; display: inline-block;
+        }
+        .hero-name span {
+            display: inline-block; opacity: 0; filter: blur(20px); transform: scale(1.5) translateY(-10px);
+            animation: air-reveal 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes air-reveal {
+            100% { opacity: 1; filter: blur(0px); transform: scale(1) translateY(0); }
+        }
+
+        .hero-bio { margin-bottom: 40px; text-align: left; position: relative; padding-left: 25px; }
+        .hero-bio::before {
+            content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--accent-gold), transparent);
+            box-shadow: 0 0 10px var(--accent-gold);
+        }
+        .hero-bio-title { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 15px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        .hero-bio-lead { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 25px; line-height: 1.8; }
+        .hero-bio-lead strong { color: var(--text-main); font-weight: 500; font-size: 1.2rem; }
+
+        .mission-highlight-box {
+            position: relative; padding: 20px 25px; border-radius: 16px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), transparent);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+        }
+        .hero-highlight-text {
+            font-size: 1.3rem; font-weight: 400; line-height: 1.6; text-align: center; margin: 0;
+            color: var(--accent-gold); font-family: 'Cinzel', serif;
+        }
+
+        /* --- БЛОК "О МЕТОДЕ" --- */
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 3rem; color: var(--accent-gold); }
+        .mission-main-card { padding: 50px 40px; text-align: center; max-width: 950px; margin: 120px auto 50px auto; }
+        .glass-inset-container {
+            background: rgba(11, 11, 14, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.1); border-radius: 20px; padding: 45px 40px; margin: 40px auto 10px auto; max-width: 860px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+        }
+        .mission-lead { font-size: 1.4rem; font-weight: 500; margin-bottom: 20px; color: var(--accent-lavender); text-transform: uppercase; font-family: 'Cinzel', serif; }
+        .mission-divider { height: 1px; width: 100px; background: linear-gradient(90deg, transparent, var(--accent-gold), transparent); margin: 0 auto 25px auto; }
+        .vitality-text { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+
+        /* --- БЛОК "ОТЗЫВЫ" (TRUST SLIDER) --- */
+        .trust-card { padding: 40px; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-slider-container {
+            position: relative; width: 100%; max-width: 400px; margin: 0 auto; padding: 15px; border-radius: 20px;
+            background: rgba(11, 11, 14, 0.4); border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .trust-slides-wrapper { position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .trust-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out; transform: scale(1.05); pointer-events: none; z-index: 1;
+        }
+        .trust-slide.active { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 2; }
+        .trust-image { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.9); }
+        .trust-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(11, 11, 14, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3); color: var(--accent-gold); width: 45px; height: 45px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; z-index: 10; transition: all 0.3s ease;
+        }
+        .trust-arrow:hover { background: var(--accent-gold); color: var(--bg-black); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        .trust-prev { left: -20px; } .trust-next { right: -20px; }
+        .trust-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 10; }
+        .trust-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); cursor: pointer; transition: all 0.3s ease; }
+        .trust-dot.active { background: var(--accent-gold); transform: scale(1.3); box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); }
+
+        /* --- НАПРАВЛЕНИЯ (SERVICES) --- */
+        .expandable-section { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .expandable-content { max-height: 0; overflow: hidden; transition: max-height 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease; opacity: 0; text-align: left; }
+        .expandable-content.show { max-height: 2500px; opacity: 1; margin-top: 30px; }
+        
+        .mission-points-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 20px; }
+        .mission-point-card { padding: 35px 25px; text-align: center; display: flex; flex-direction: column; align-items: center; height: 100%; border: none; }
+        .mission-icon-gold { font-size: 2.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3)); }
+        .mission-point-card h3 { font-size: 1.3rem; margin-bottom: 10px; color: var(--accent-gold); }
+        .mission-point-card p { font-size: 1rem; color: var(--text-muted); }
+
+        /* --- ВОРОНКА (FUNNEL) --- */
+        .funnel-wrapper { position: relative; max-width: 1000px; margin: 0 auto; padding: 40px 0; display: flex; flex-direction: column; }
+        .funnel-wrapper::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: linear-gradient(to bottom, transparent, rgba(138, 111, 216, 0.3), transparent); transform: translateX(-50%); z-index: 0; }
+        .funnel-glow-line { position: absolute; top: 0; left: 50%; width: 3px; height: 120px; background: var(--accent-lavender); transform: translateX(-50%); border-radius: 10px; box-shadow: 0 0 20px 5px rgba(94, 59, 175, 0.8); animation: shootDown 24s linear infinite; z-index: 1; }
+        @keyframes shootDown { 0% { top: 0; opacity: 0; } 5% { opacity: 1; } 95% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+        
+        .funnel-step { width: 50%; position: relative; margin-bottom: 40px; display: flex; justify-content: flex-end; padding-right: 40px; z-index: 2; }
+        .funnel-step:nth-child(even) { align-self: flex-end; justify-content: flex-start; padding-right: 0; padding-left: 40px; }
+        .funnel-dot { position: absolute; top: 50%; right: -8px; width: 16px; height: 16px; background: var(--bg-black); border: 2px solid rgba(138, 111, 216, 0.4); border-radius: 50%; transform: translateY(-50%); transition: all 0.3s ease; animation: dotGlow 24s infinite; }
+        .funnel-step:nth-child(even) .funnel-dot { right: auto; left: -8px; }
+        .funnel-box { width: 100%; max-width: 400px; padding: 30px; text-align: left; animation: boxGlow 24s infinite; transition: transform 0.4s ease; }
+        
+        .funnel-number { position: absolute; top: -15px; right: 10px; font-size: 5rem; color: rgba(212, 175, 55, 0.03); line-height: 1; pointer-events: none; transition: color 0.5s ease; animation: textGlow 24s infinite; z-index: 0; }
+        .funnel-step:nth-child(even) .funnel-number { right: auto; left: 10px; }
+        .funnel-box h3 { font-size: 1.3rem; color: var(--accent-gold); margin-bottom: 10px; position: relative; z-index: 2; }
+        .funnel-box p { color: var(--text-muted); font-size: 1rem; position: relative; z-index: 2; }
+
+        @keyframes boxGlow { 
+            0%, 15%, 100% { border-color: rgba(212, 175, 55, 0.15); box-shadow: 0 10px 40px rgba(0,0,0,0.6); transform: scale(1); } 
+            5%, 10% { border-color: rgba(138, 111, 216, 0.5); box-shadow: 0 0 30px rgba(94, 59, 175, 0.4), inset 0 0 15px rgba(138, 111, 216, 0.1); transform: scale(1.02); } 
+        }
+        @keyframes dotGlow { 
+            0%, 15%, 100% { border-color: rgba(138, 111, 216, 0.4); background: var(--bg-black); box-shadow: none; transform: translateY(-50%) scale(1); } 
+            5%, 10% { border-color: var(--accent-lavender); background: var(--accent-lavender); box-shadow: 0 0 15px var(--accent-lavender); transform: translateY(-50%) scale(1.3); } 
+        }
+        @keyframes textGlow { 0%, 15%, 100% { color: rgba(212, 175, 55, 0.03); } 5%, 10% { color: rgba(212, 175, 55, 0.1); } }
+        .funnel-step:nth-child(1) .funnel-box, .funnel-step:nth-child(1) .funnel-dot, .funnel-step:nth-child(1) .funnel-number { animation-delay: 0s; } .funnel-step:nth-child(2) .funnel-box, .funnel-step:nth-child(2) .funnel-dot, .funnel-step:nth-child(2) .funnel-number { animation-delay: 4s; } .funnel-step:nth-child(3) .funnel-box, .funnel-step:nth-child(3) .funnel-dot, .funnel-step:nth-child(3) .funnel-number { animation-delay: 8s; } .funnel-step:nth-child(4) .funnel-box, .funnel-step:nth-child(4) .funnel-dot, .funnel-step:nth-child(4) .funnel-number { animation-delay: 12s; } .funnel-step:nth-child(5) .funnel-box, .funnel-step:nth-child(5) .funnel-dot, .funnel-step:nth-child(5) .funnel-number { animation-delay: 16s; } .funnel-step:nth-child(6) .funnel-box, .funnel-step:nth-child(6) .funnel-dot, .funnel-step:nth-child(6) .funnel-number { animation-delay: 20s; }
+
+        /* --- ФОРМАТЫ РАБОТЫ (PRICING) --- */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .pricing-card { padding: 45px 30px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; border-top: 2px solid rgba(212, 175, 55, 0.2); }
+        .pricing-features { list-style: none; text-align: left; margin: 25px 0 30px 0; color: var(--text-muted); }
+        .pricing-features li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; }
+        .check-icon { color: var(--accent-gold); font-size: 1.2rem; text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
+
+        /* --- ВИДЕОРАЗБОРЫ --- */
+        .reviews-section { padding: 80px 0; text-align: center; display: flex; justify-content: center; flex-direction: column; align-items: center; }
+        .reviews-frame { position: relative; max-width: 900px; width: 100%; padding: 50px; }
+        .video-slider-container { position: relative; width: 100%; perspective: 1000px; min-height: 640px; margin: 0 auto 10px auto; }
+        .video-slide { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transform: rotateY(-20deg) translateX(50px) scale(0.9); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none; visibility: hidden; }
+        .video-slide.active { position: relative; opacity: 1; transform: rotateY(0deg) translateX(0) scale(1); pointer-events: auto; visibility: visible; z-index: 2; }
+        .video-slide-title { font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 25px; }
+        .video-frame { padding: 10px; border-radius: 20px; background: rgba(11, 11, 14, 0.6); border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-width: 320px; margin: 0 auto; position: relative; width: 100%; }
+        .youtube-adaptive-container { position: relative; padding-bottom: 177.77%; height: 0; border-radius: 12px; overflow: hidden; background: #000; }
+        .youtube-adaptive-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* --- КОНТАКТЫ --- */
+        .glass-promo-card { padding: 70px 40px; text-align: center; max-width: 850px; width: 100%; margin: 60px auto 120px; }
+        .glass-promo-card h2 { font-size: 3rem; color: var(--accent-gold); margin-bottom: 15px; }
+        .glass-promo-card p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 45px; }
+        .contacts-action-grid { display: flex; flex-direction: column; gap: 20px; align-items: center; width: 100%; max-width: 400px; margin: 0 auto; }
+        .contacts-action-grid .btn-main { width: 100%; }
+
+        /* --- МОДАЛЬНЫЕ ОКНА --- */
+        .form-modal, .details-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(11, 11, 14, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); align-items: center; justify-content: center; padding: 20px; }
+        .form-modal-content { position: relative; width: 95%; max-width: 700px; height: 80vh; border-radius: 20px; overflow: hidden; background: var(--bg-graphite); border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.8); animation: zoomIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .form-modal-content iframe { width: 100%; height: 100%; border: none; background: transparent; }
+        @keyframes zoomIn { from {transform: scale(0.95); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: rgba(27, 27, 29, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--accent-gold); cursor: pointer; transition: all 0.4s ease; z-index: 100; }
+        .modal-close-btn:hover { background: var(--accent-gold); color: var(--bg-black); transform: rotate(90deg); box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+
+        .details-modal-content { background: var(--bg-graphite); width: 100%; max-width: 650px; max-height: 85vh; overflow-y: auto; border-radius: 24px; padding: 45px 50px; position: relative; border: 1px solid rgba(212, 175, 55, 0.15); box-shadow: 0 25px 60px rgba(0,0,0,0.9); animation: zoomIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .details-modal-content::-webkit-scrollbar { width: 6px; } .details-modal-content::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 10px; }
+        
+        .dm-title { color: var(--accent-gold); font-size: 2.2rem; margin-bottom: 10px; }
+        .dm-subtitle { font-size: 1rem; color: var(--text-muted); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Montserrat', sans-serif;}
+        .dm-frame { border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 16px; padding: 30px 25px; background: rgba(27, 27, 29, 0.5); margin-bottom: 35px; position: relative; }
+        .dm-frame::before { content: '✦'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--bg-graphite); padding: 0 10px; color: var(--accent-gold); font-size: 1.2rem; }
+        .dm-frame p { color: var(--text-main); font-size: 1.1rem; text-align: center; font-style: italic; }
+        .dm-text-block { margin-bottom: 30px; }
+        .dm-text-block h4 { color: var(--accent-lavender); font-size: 1.2rem; margin-bottom: 10px; font-family: 'Cinzel', serif;}
+        .dm-text-block p { color: var(--text-muted); font-size: 1rem; }
+        .dm-list-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+        .dm-tag { background: rgba(27, 27, 29, 0.6); border: 1px solid rgba(212, 175, 55, 0.3); padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; color: var(--text-main); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.03em; }
+        .dm-tag:hover { background: var(--accent-gold); color: var(--bg-black); border-color: var(--accent-gold); }
+
+        /* --- АДАПТИВ (RESPONSIVE) --- */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-bio { text-align: center; padding-left: 0; }
+            .hero-bio::before { display: none; }
+            .hero-name { font-size: 3rem; }
+            .pricing-grid, .mission-points-grid { grid-template-columns: 1fr; }
+            .glass-inset-container, .mission-main-card { padding: 30px 20px; }
+            .nav-capsule { padding: 10px; width: 95%; overflow-x: auto; justify-content: flex-start;}
+            .funnel-step { width: 100%; justify-content: flex-start; padding-left: 60px; padding-right: 0; }
+            .funnel-step:nth-child(even) { align-self: flex-start; padding-left: 60px; }
+            .funnel-wrapper::before, .funnel-glow-line { left: 20px; }
+            .funnel-dot { left: 12px !important; }
+            .funnel-number, .funnel-step:nth-child(even) .funnel-number { right: 10px; left: auto; }
+            .details-modal-content { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фоновые слои (Premium Hypnotherapy Ambient) -->
+    <div id="particles-js"></div>
+    <div class="ambient-fog"></div>
+    <div class="hypnotic-rings"></div>
+
+    <header>
+        <nav class="nav-capsule">
+            <a href="javascript:void(0)" onclick="openFormModal()" class="header-btn">Записаться сеанс</a>
+            <a href="#about">О методе</a>
+            <a href="#director">Гипнотерапевт</a>
+            <a href="#services">Направления</a>
+            <a href="#how-we-work">Этапы изменений</a>
+            <a href="#projects">Разборы сессий</a>
+            <a href="#pricing">Форматы работы</a>
+            <a href="#contacts">Контакты</a>
+        </nav>
+    </header>
+
+    <section id="about" class="container">
+        <div class="mission-main-card dark-glass reveal-element">
+            <h1 class="golden-glow-text">Николай&nbsp;Хромов <br> Архитектор&nbsp;Духа</h1>
+            <div class="glass-inset-container">
+                <p class="mission-lead">Помогаю людям освободиться от алкогольной, наркотической и других зависимостей через глубинную работу с подсознанием.</p>
+                <div class="mission-divider"></div>
+                <p class="vitality-text">
+                    Почему люди не могут бросить? Никто не начинает употреблять просто так. Алкоголь, наркотики, азартные игры или другие зависимости — это способ на время убежать от внутренней боли, тревоги, чувства одиночества, вины, страха или эмоционального напряжения. Поэтому борьба с зависимостью только силой воли чаще всего заканчивается новым срывом. Пока остается причина, психика снова ищет способ заглушить боль. <br><br>
+                    Что мы делаем? Мы не боремся с зависимостью. Мы находим ту внутреннюю причину, из-за которой психике когда-то понадобилось убегать от реальности. Во время глубинной работы с подсознанием вы обнаруживаете источник своей боли, освобождаетесь от внутренних ограничений и возвращаете себе утраченную внутреннюю опору. Когда исчезает причина, исчезает и необходимость постоянно убегать от жизни.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="director" class="hero container reveal-element">
+        <div class="hero-grid">
+            <div class="image-wrapper">
+                <img src="https://images.fillout.com/orgid-594930/flowpublicid-nbSqbmoL1xus/widgetid-3d2B/sZaxYjFPa5gEuM6muWyEwS/1350863838927497139_99.jpg?a=fN4WR4ZaqRCD3CmZPpGGfJ" alt="Николай Хромов" class="liquid-img">
+            </div>
+            <div class="hero-content">
+                <h1>ПРОФЕССИОНАЛЬНЫЙ ГИПНОТЕРАПЕВТ-РЕГРЕССОЛОГ</h1>
+                <div class="hero-name-container">
+                    <div class="hero-name">НИКОЛАЙ</div>
+                    <div class="hero-name">ХРОМОВ</div>
+                </div>
+                <div class="hero-bio">
+                    <h3 class="hero-bio-title">Помог сотням людей освободиться от зависимостей и вернуть управление своей жизнью.</h3>
+                    <p class="hero-bio-lead">
+                        <strong>На протяжении многих лет я изучаю работу подсознания, механизмы формирования зависимостей и способы глубинной внутренней трансформации. За это время я помог сотням людей изменить свою жизнь, а мой YouTube-канал поддержал тысячи людей на пути к трезвости.</strong><br>
+                        Для меня это не просто профессия. Это дело моей жизни. Я знаю, насколько тяжело выбраться из зависимости, поэтому работаю не с осуждением и запретами, а с пониманием, уважением и поиском истинной причины проблемы.
+                    </p>
+                    <div class="mission-highlight-box">
+                        <p class="hero-highlight-text">
+                            Моя цель — помочь вам не просто отказаться от употребления, а вернуть внутреннюю свободу, спокойствие и желание жить полноценной жизнью.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="trust" class="container reveal-element" style="padding: 60px 0;">
+        <div class="trust-card dark-glass">
+            <div class="section-header" style="margin-bottom: 30px;">
+                <h2 class="text-gold">Отзывы</h2>
+            </div>
+            <div class="trust-slider-container">
+                <div class="trust-slides-wrapper">
+                    <div class="trust-slide active">
+                        <img src="https://images.fillout.com/orgid-751026/flowpublicid-bSW4euZgqtus/widgetid-843y/uU4L7Ub4zg1z7qkaxeGd6R/ChatGPT-Image-1-N.-2026-.-20_23_39.png?a=riuADU6UBxFMUXmrMScs7p" alt="Внутреннее спокойствие" class="trust-image">
+                    </div>
+                    <div class="trust-slide">
+                        <img src="https://images.fillout.com/orgid-751026/flowpublicid-bSW4euZgqtus/widgetid-4T1P/cYcHoZfgUQ7tTaHUzu2axX/0ee1e639-297a-4fc0-93a7-b96b4d64d217.png?a=f8ByfVnr8gtsvuRd1cdtWV" alt="Устранение блоков" class="trust-image">
+                    </div>
+                    <div class="trust-slide">
+                        <img src="https://images.fillout.com/orgid-751026/flowpublicid-bSW4euZgqtus/widgetid-31vA/kHmuFKXnnygrQkocSPeR1L/e5d2bfe9-b9cd-41b4-82e7-78f582816fd1.png?a=nbtzMfDx99zd1GDgX43SSQ" alt="Уверенность в себе" class="trust-image">
+                    </div>
+                     <div class="trust-slide">
+                        <img src="https://images.fillout.com/orgid-751026/flowpublicid-bSW4euZgqtus/widgetid-pENe/tZXeURK4kURCvpn9BjE5mT/photo_2026-07-01_21-33-35.jpg?a=3CnWCZ25EA1mCKuARELL3t" alt="Уверенность в себе" class="trust-image">
+                    </div>
+                     <div class="trust-slide">
+                        <img src="https://images.fillout.com/orgid-751026/flowpublicid-bSW4euZgqtus/widgetid-3fTQ/v9ie84zHwdiEjYUfZ4FpbP/photo_2026-06-30_19-02-31.jpg?a=cNxZi98LoeAnN5gUb6hywH" alt="Уверенность в себе" class="trust-image">
+                    </div>
+                    <div class="trust-arrow trust-prev" onclick="changeTrustSlide(-1)">&#10094;</div>
+                    <div class="trust-arrow trust-next" onclick="changeTrustSlide(1)">&#10095;</div>
+                    <div class="trust-dots">
+                        <div class="trust-dot active" onclick="setTrustSlide(0)"></div>
+                        <div class="trust-dot" onclick="setTrustSlide(1)"></div>
+                        <div class="trust-dot" onclick="setTrustSlide(2)"></div>
+                        <div class="trust-dot" onclick="setTrustSlide(3)"></div>
+                        <div class="trust-dot" onclick="setTrustSlide(4)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="container reveal-element" style="padding: 60px 0;">
+        <div class="section-header">
+            <h2 class="text-gold">Какие запросы решает гипнотерапия?</h2>
+        </div>
+        <div class="expandable-section">
+            <div class="mission-main-card dark-glass" style="margin-top: 0; padding: 50px 40px; margin-bottom: 20px;">
+                <h3 style="font-size: 1.8rem; color: var(--accent-gold); margin-bottom: 15px; font-family: 'Cinzel', serif;">Глубинные запросы под ключ</h3>
+                <p style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 30px;">Направления, с которыми мы успешно работаем:</p>
+                <button id="toggleServicesBtn" class="btn-main">Посмотреть все направления</button>
+            </div>
+            <div id="servicesContent" class="expandable-content">
+                <div class="mission-points-grid" style="margin-top: 20px;">
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">🛡️</div><h3>Страхи и фобии</h3><p>Полная нейтрализация панических атак, страха выступлений, высоты, темноты и социофобии.</p>
+                    </div>
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">🌿</div><h3>Психосоматика</h3><p>Освобождение тела от зажимов, хронического напряжения и болей, вызванных психотравмами.</p>
+                    </div>
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">💎</div><h3>Самооценка</h3><p>Обретение безусловной уверенности, выстраивание личных границ и синдрома самозванца.</p>
+                    </div>
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">💸</div><h3>Финансовые блоки</h3><p>Устранение подсознательных барьеров, страха бедности или больших денег, масштабирование дохода.</p>
+                    </div>
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">🔄</div><h3>Повторяющиеся сценарии</h3><p>Выход из деструктивных отношений, избавление от эмоциональной зависимости.</p>
+                    </div>
+                    <div class="mission-point-card dark-glass">
+                        <div class="mission-icon-gold">🕊️</div><h3>Тревожные состояния</h3><p>Возвращение внутреннего спокойствия, здорового сна и радости каждого дня.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-we-work" class="container reveal-element" style="padding: 60px 0;">
+        <div class="section-header">
+            <h2 class="text-gold">Ступени проработки</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Пошаговый путь к вашей новой реальности</p>
+        </div>
+        <div class="funnel-wrapper">
+            <div class="funnel-glow-line"></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">01</div><h3>БЕСЕДА</h3><p>Первичная консультация. Обсуждаем ваш запрос, выявляем проблемные сферы вашей жизни и формируем точку Б.</p></div></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">02</div><h3>ОПРЕДЕЛЯЕМ КАКОЙ РЕЗУЛЬТАТ ВАМ НУЖЕН</h3><p>Составляем индивидуальную стратегию и определяем удобное время для работы.</p></div></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">03</div><h3>ПРИСТУПАЕМ</h3><p>Мягкий вход в трансовое состояние. Вы расслаблены, бодрствуете и полностью контролируете процесс.</p></div></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">04</div><h3>ПОИСК ЯДРА ПРОБЛЕМЫ</h3><p>Находим все деструктивные чувства , все ключевые ситуации из прошлого, в которых сформировались ограничивающие убеждения.</p></div></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">05</div><h3>ТРАНСФОРМАЦИЯ</h3><p>Перепрошивка деструктивных установок и паттернов на новые, сильные и созидательные решения.</p></div></div>
+            <div class="funnel-step"><div class="funnel-dot"></div><div class="funnel-box dark-glass"><div class="funnel-number">06</div><h3>НОВОЕ СОСТОЯНИЕ</h3><p>Интеграция изменений, закрепление результатов конкретными физическими действиями и выход на качественно новый жизненный уровень.</p></div></div>
+        </div>
+    </section>
+
+    <section id="pricing" class="container reveal-element" style="padding: 60px 0;">
+        <div class="section-header">
+            <h2 class="text-gold">Форматы работы</h2>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card dark-glass">
+                <div>
+                    <h3 style="font-size: 1.4rem; color: var(--accent-gold);">Освобождение от зависимости</h3>
+                    <p style="color: var(--text-main); margin-top: 5px;">Краткосрочная работа с подсознанием (2 сессии)</p>
+                    <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.95rem;">Программа для тех, кто хочет выйти из разрушительного сценария и вернуть контроль над своей жизнью.</p>
+                    <div class="mission-divider" style="width: 60px; margin: 15px auto;"></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Находим психологические причины зависимости.</li>
+                    <li><span class="check-icon">✓</span> Меняем отношение к объекту на уровне подсознания.</li>
+                    <li><span class="check-icon">✓</span> Снижаем или полностью убираем тягу.</li>
+                    <li><span class="check-icon">✓</span> Освобождаем внутренние ресурсы для созидания.</li>
+                    <li><span class="check-icon">✓</span> Формируем вектор жизни без саморазрушения.</li>
+                </ul>
+                <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; border: 1px solid rgba(212, 175, 55, 0.1); margin-top: auto;">
+                    <p style="color: var(--accent-gold); margin-bottom: 5px; font-size: 1rem;">Результат:</p>
+                    <p style="font-size: 0.95rem; color: var(--text-main);">Снижение тяги, изменение мышления и переход в продуктивный образ жизни.</p>
+                </div>
+                <button class="btn-main" onclick="openDetailsModal('package1')">Подробнее</button>
+            </div>
+
+            <div class="pricing-card dark-glass">
+                <div>
+                    <h3 style="font-size: 1.4rem; color: var(--accent-gold);">Глубокая трансформация</h3>
+                    <p style="color: var(--text-main); margin-top: 5px;">Месячный курс (5 сессий)</p>
+                    <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.95rem;">Комплексная работа с причинами проблем, а не только с их последствиями.</p>
+                    <div class="mission-divider" style="width: 60px; margin: 15px auto;"></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Работа с психотравмами и блоками.</li>
+                    <li><span class="check-icon">✓</span> Регрессивные техники поиска причин.</li>
+                    <li><span class="check-icon">✓</span> Исцеление деструктивных сценариев.</li>
+                    <li><span class="check-icon">✓</span> Формирование новых моделей поведения.</li>
+                    <li><span class="check-icon">✓</span> Личное сопровождение между сессиями.</li>
+                    <li><span class="check-icon">✓</span> Обратная связь 24/7.</li>
+                </ul>
+                <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; border: 1px solid rgba(212, 175, 55, 0.1); margin-top: auto;">
+                    <p style="color: var(--accent-gold); margin-bottom: 5px; font-size: 1rem;">Результат:</p>
+                    <p style="font-size: 0.95rem; color: var(--text-main);">Глубокие внутренние изменения, освобождение от старых программ и новый уровень жизни.</p>
+                </div>
+                <button class="btn-main" onclick="openDetailsModal('package2')">Подробнее</button>
+            </div>
+
+            <div class="pricing-card dark-glass">
+                <div>
+                    <h3 style="font-size: 1.4rem; color: var(--accent-gold);">ПОЛНАЯ ТРАНСФОРМАЦИЯ<br>ОТКРЫТИЕ РОДОВОЙ ПРОГРАММЫ И СОПРОВОЖДЕНИЕ В ЗАПУСКЕ ПРИЗВАНИЯ</h3>
+                    <p style="color: var(--text-main); margin-top: 5px;">Двухмесячная программа (10 сессий)</p>
+                    <p style="color: var(--text-muted); margin-top: 10px; font-size: 0.95rem;">Масштабная программа для полного освобождения от ограничивающих сценариев.</p>
+                    <div class="mission-divider" style="width: 60px; margin: 15px auto;"></div>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Проработка глубинных страхов и ограничений.</li>
+                    <li><span class="check-icon">✓</span> Поиск предназначения и сильных качеств.</li>
+                    <li><span class="check-icon">✓</span> Проработка негативных родовых сценариев.</li>
+                    <li><span class="check-icon">✓</span> Восстановление внутренней родовой опоры.</li>
+                    <li><span class="check-icon">✓</span> Формирование новой стратегии реализации.</li>
+                    <li><span class="check-icon">✓</span> Личное сопровождение и связь 24/7.</li>
+                </ul>
+                <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; border: 1px solid rgba(212, 175, 55, 0.1); margin-top: auto;">
+                    <p style="color: var(--accent-gold); margin-bottom: 5px; font-size: 1rem;">Результат:</p>
+                    <p style="font-size: 0.95rem; color: var(--text-main);">Перезапись сценария жизни, внутренняя опора, поддержка рода и выход на новый уровень.</p>
+                </div>
+                <button class="btn-main" onclick="openDetailsModal('package3')">Подробнее</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="reviews-section container reveal-element">
+        <div class="reviews-frame dark-glass" style="margin-bottom: 0;">
+            <h2 class="text-gold" style="font-size: 2.5rem; margin-bottom: 30px;">Видеоразборы и Кейсы</h2>
+            
+            <div class="video-slider-container">
+                <div class="video-slide active">
+                    <h3 class="video-slide-title">Я вытаскиваю людей из зависимостей с помощью глубинной работы с подсознанием!</h3>
+                    <div class="video-frame">
+                        <div class="youtube-adaptive-container">
+                            <iframe src="https://www.youtube.com/shorts/SQHuQM04liw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-slide">
+                    <h3 class="video-slide-title">Проработка финансового потолка</h3>
+                    <div class="video-frame">
+                        <div class="youtube-adaptive-container">
+                            <iframe src="https://www.youtube.com/embed/UPJeYW-rZXk?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-slide">
+                    <h3 class="video-slide-title">Исцеление детских психотравм</h3>
+                    <div class="video-frame">
+                        <div class="youtube-adaptive-container">
+                            <iframe src="https://www.youtube.com/embed/qmBWSvfyvTY?enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <button class="btn-main" style="padding: 10px 25px;" onclick="nextVideoSlide()">Следующий разбор ➔</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacts" class="container reveal-element">
+        <div class="glass-promo-card dark-glass">
+            <h2>Остались вопросы?</h2>
+            <p>Сделайте первый шаг к изменениям. Позвоните мне — мы проведем бесплатную консультацию и определим истинную причину вашего дискомфорта.</p>
+            <div style="margin-bottom: 30px;">
+                <a href="tel:+77002886678" class="text-gold" style="font-size: 2.5rem; font-family: 'Cinzel', serif; text-decoration: none; display: block; margin-bottom: 10px;">+7 700 288 66 78</a>
+            </div>
+            
+            <div class="contacts-action-grid">
+                <button class="btn-main" onclick="openFormModal()">Оставить заявку</button>
+                <a href="https://wa.me/77002886678" target="_blank" class="btn-main btn-whatsapp">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px;">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                    </svg>
+                    Связаться в WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="formModal" class="form-modal">
+        <div class="form-modal-content">
+            <span class="modal-close-btn" onclick="closeFormModal()">&times;</span>
+            <iframe src="https://nikolay-hromov.fillout.com/zayavka" title="Записаться на сеанс"></iframe>
+        </div>
+    </div>
+
+    <div id="detailsModal" class="details-modal" onclick="if(event.target === this) closeDetailsModal()">
+        <div class="details-modal-content">
+            <span class="modal-close-btn" onclick="closeDetailsModal()">&times;</span>
+            <div id="detailsModalBody"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Анимация имени
+            const nameElements = document.querySelectorAll('.hero-name');
+            nameElements.forEach(nameElement => {
+                const text = nameElement.innerText;
+                nameElement.innerHTML = ''; 
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.innerText = char === ' ' ? '\u00A0' : char; 
+                    span.style.animationDelay = `${index * 0.1}s`; 
+                    nameElement.appendChild(span);
+                });
+            });
+
+            // Кнопка показа направлений
+            const toggleServicesBtn = document.getElementById('toggleServicesBtn');
+            const servicesContent = document.getElementById('servicesContent');
+            toggleServicesBtn.addEventListener('click', function() {
+                servicesContent.classList.toggle('show');
+                if (servicesContent.classList.contains('show')) {
+                    toggleServicesBtn.innerText = 'Скрыть направления';
+                    setTimeout(() => { servicesContent.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 300);
+                } else { toggleServicesBtn.innerText = 'Посмотреть все направления'; }
+            });
+
+            // Intersection Observer для плавающего появления блоков (Reveal Animation)
+            const revealElements = document.querySelectorAll('.reveal-element');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+
+        // Настройки частиц (адаптировано под золотые/лавандовые летящие искры)
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": ["#D4AF37", "#8A6FD8"] }, 
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } }, 
+                "size": { "value": 3, "random": true, "anim": { "enable": true, "speed": 2, "size_min": 0.5, "sync": false } }, 
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 0.6, "direction": "top", "random": true, "straight": false, "out_mode": "out", "bounce": false } 
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "repulse": { "distance": 100, "duration": 0.4 } } },
+            "retina_detect": true
+        });
+
+        /* --- ЛОГИКА ФОРМЫ --- */
+        const formModal = document.getElementById('formModal');
+        function openFormModal() { formModal.style.display = "flex"; document.body.style.overflow = "hidden"; }
+        function closeFormModal() { formModal.style.display = "none"; document.body.style.overflow = "auto"; }
+
+        /* --- ЛОГИКА ОКНА "ПОДРОБНЕЕ" (Тарифы) --- */
+        const detailsData = {
+            package1: { title: "Освобождение", subtitle: "Краткосрочная работа с подсознанием (2 сессии)", frameText: "Истинная свобода начинается не тогда, когда вы постоянно боретесь с желанием, а тогда, когда мозг перестает воспринимать вещество как источник удовольствия. Мы меняем нейронное закрепление зависимости, формируя новое отношение к тому, что раньше вызывало тягу.", blocks: [ { title: "В чем суть формата?", text: "Этот формат создан для тех, кто принял решение избавиться от зависимости. Во время работы мы перепрограммируем бессознательные реакции, заменяя дофаминовое закрепление вещества на устойчивое защитное восприятие. То, что раньше притягивало, начинает вызывать безразличие или естественное отторжение." }, { title: "Как это работает?", text: "В состоянии глубокого расслабления мы работаем напрямую с подсознанием и эмоциональной памятью. Мозг перестраивает свои ассоциации: вместо автоматического ожидания удовольствия формируется защитная реакция, благодаря которой тяга постепенно угасает." } ], tags: ["Изменение отношения мозга к веществу", "Разрушение дофаминового закрепления зависимости", "Формирование защитной реакции на уровне подсознания", "Ослабление и исчезновение навязчивой тяги", "Возвращение внутренней свободы и контроля над своей жизнью"], actionText: "Оставить заявку на этот формат" },
+            package2: { title: "Глубокая трансформация", subtitle: "Месячный курс (5 сессий)", frameText: "Мы не просто убираем симптом. Мы перестраиваем фундамент вашей личности, возвращая вам целостность, внутреннюю силу и непоколебимую уверенность.", blocks: [ { title: "Зачем нужен курс?", text: "Зависимость или глубокий блок редко держатся на одном событии. Это клубок нейронных связей. За 5 сессий мы распутываем его полностью, слой за слоем очищая вашу психику." }, { title: "Что вы получите?", text: "Вы не просто избавитесь от проблемы. Вы проработаете скрытые обиды, детские травмы и ложные убеждения, которые мешали вам жить в полную силу." } ], tags: ["Регрессия", "Исцеление травм", "Внутренняя опора", "Защита от срывов", "Новые сценарии"], actionText: "Оставить заявку на трансформацию" },
+            package3: { title: "Полная трансформация", subtitle: "Двухмесячная программа (10 сессий)", frameText: "Программа-флагман. Здесь мы работаем на уровне души, рода и предназначения. Вы выйдете из этого пути совершенно другим человеком — сильным, свободным и осознанным.", blocks: [ { title: "Для кого этот путь?", text: "Для тех, кто готов кардинально изменить свою жизнь. Кто устал ходить по кругу одних и тех же грабель и хочет не просто решить проблему, а построить жизнь своей мечты." }, { title: "Работа с родом", text: "Часто наши блоки — это не наш опыт, а программы, переданные по роду. Мы очистим эту связь, превратив груз поколений в вашу самую мощную поддержку и опору." }, { title: "Реализация и путь", text: "После очищения мы направим фокус на ваш потенциал: раскроем таланты, уберем страх проявления и создадим вектор для вашей истинной самореализации." } ], tags: ["Родовые программы", "Предназначение", "Абсолютная свобода", "Энергия созидания", "Ментальный щит", "Связь 24/7"], actionText: "Готов к полной трансформации" }
+        };
+
+        function openDetailsModal(packageId) {
+            const data = detailsData[packageId];
+            if (!data) return;
+            let blocksHtml = data.blocks.map(b => `<div class="dm-text-block"><h4>${b.title}</h4><p>${b.text}</p></div>`).join('');
+            let tagsHtml = data.tags.map(t => `<div class="dm-tag">${t}</div>`).join('');
+            document.getElementById('detailsModalBody').innerHTML = `<h3 class="dm-title">${data.title}</h3><div class="dm-subtitle">${data.subtitle}</div><div class="dm-frame"><p>${data.frameText}</p></div>${blocksHtml}<div class="dm-text-block" style="margin-bottom: 15px;"><h4>Ключевые этапы работы:</h4></div><div class="dm-list-container">${tagsHtml}</div><div style="text-align: center;"><button class="btn-main" style="width: 100%;" onclick="closeDetailsModal(); setTimeout(openFormModal, 300);">${data.actionText}</button></div>`;
+            document.getElementById('detailsModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        /* --- ЛОГИКА СЛАЙДЕРА (Карусель "Почему нам доверяют") --- */
+        let trustSlideIndex = 0;
+        let trustSlideInterval;
+        const trustSlides = document.querySelectorAll('.trust-slide');
+        const trustDots = document.querySelectorAll('.trust-dot');
+
+        function showTrustSlide(index) {
+            if (!trustSlides.length) return;
+            trustSlides.forEach(slide => slide.classList.remove('active'));
+            trustDots.forEach(dot => dot.classList.remove('active'));
+            
+            trustSlideIndex = index;
+            if (trustSlideIndex >= trustSlides.length) trustSlideIndex = 0;
+            if (trustSlideIndex < 0) trustSlideIndex = trustSlides.length - 1;
+            
+            trustSlides[trustSlideIndex].classList.add('active');
+            if(trustDots[trustSlideIndex]) trustDots[trustSlideIndex].classList.add('active');
+        }
+
+        function changeTrustSlide(n) { showTrustSlide(trustSlideIndex + n); resetTrustInterval(); }
+        function setTrustSlide(index) { showTrustSlide(index); resetTrustInterval(); }
+        function resetTrustInterval() {
+            clearInterval(trustSlideInterval);
+            trustSlideInterval = setInterval(() => { showTrustSlide(trustSlideIndex + 1); }, 6000);
+        }
+        if(trustSlides.length > 0) { resetTrustInterval(); }
+
+        /* --- ЛОГИКА СЛАЙДЕРА ВИДЕО-ПЛЕЕРОВ --- */
+        let currentVideoSlideIndex = 0;
+        function nextVideoSlide() {
+            const slides = document.querySelectorAll('.video-slide');
+            if (!slides.length) return;
+            
+            const currentIframe = slides[currentVideoSlideIndex].querySelector('iframe');
+            if (currentIframe) {
+                const src = currentIframe.src;
+                currentIframe.src = src; 
+            }
+
+            slides[currentVideoSlideIndex].classList.remove('active');
+            currentVideoSlideIndex = (currentVideoSlideIndex + 1) % slides.length;
+            slides[currentVideoSlideIndex].classList.add('active');
+        }
+    </script>
+</body>
+</html>
